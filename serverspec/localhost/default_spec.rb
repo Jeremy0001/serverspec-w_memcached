@@ -9,7 +9,8 @@ describe 'w_memcached::default' do
   describe command('ufw status numbered') do
     its(:stdout) { should match(/Status: active/) }
     its(:stdout) { should match(%r{ 11211/tcp + ALLOW IN +Anywhere$}) }
-    its(:stdout) { should match(%r{11211/tcp + ALLOW IN +Anywhere \(v6\)$}) }
+    its(:stdout) { should match(%r{11211/tcp + ALLOW IN +Anywhere \(v6\)$}) } if os[:family] == 'ubuntu' and os[:release] == '12.04'
+    its(:stdout) { should match(%r{11211/tcp \(v6\) + ALLOW IN +Anywhere \(v6\)$}) } if os[:family] == 'ubuntu' and os[:release] == '14.04'
   end
 
   describe package('memcached') do
